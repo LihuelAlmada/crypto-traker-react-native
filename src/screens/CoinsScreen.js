@@ -1,29 +1,49 @@
 import React, { Component } from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, Text, FlatList, StyleSheet, ActivityIndicator } from "react-native";
 import Http from "../libs/http";
+import CoinsItem from "../components/CoinsItem";
+import Colors from "../res/colors";
+const axios = require('axios').default;
 
 class CoinsScreen extends Component {
 
   state = {
-    coins: []
+    coins: [],
+    loading: false
   }
-
+  
   componentDidMount = async() => {
-    const res = await Http.instance.get('https://api.coinlore.net/api/tickers/');
-
-    this.setState({ coins: res.data });
-  }
+    this.setState({ loading: true});
+    let stringRequest = "https://api.coinlore.net/api/tickers/";
+    const res = await Http.instance.get(stringRequest);
+    this.setState({ coins: res.data, loading: false });
+    console.log(res.data);
+    //this.state.loadEtiqueta = true;
+  };
 
   handlePress = () => {
     this.props.navigation.navigate('CoinDetail')
   }
   render() {
-    const { coins } = this.state;
+    const { coins, loading } = this.state;
     return (
       <View style={styles.container}>
+        { loading ?
+          <ActivityIndicator 
+            style={styles.loader} 
+            color="#FFF"
+            size="large"
+          />
+          : null
+        }
         <FlatList
           data={coins}
-          renderItem={({ item }) => <Text>{item.name}</Text>}
+          renderItem={
+            ({ item }) => 
+            <CoinsItem
+              item={item}
+            />
+          }
         />
       </View>
     );
@@ -33,7 +53,7 @@ class CoinsScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
+    backgroundColor: Colors.charade,
   },
   titleText: {
     color: "#000",
@@ -48,7 +68,11 @@ const styles = StyleSheet.create({
   btnText: {
     color: '#ffffff',
     textAlign: 'center',
+  },
+  loader: {
+    marginTop: 60,
   }
+
 
 });
 
