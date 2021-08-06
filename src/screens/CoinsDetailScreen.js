@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, SectionList } from "react-native";
 
-
 class CoinsDetailScreen extends Component {
 
   state = {
