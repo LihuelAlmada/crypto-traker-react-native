@@ -1,9 +1,10 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet } from "react-native";
+import Colors from "../res/colors";
 
-const CoinsItem = ({ item }) => {
+const CoinsItem = ({ item, onPress }) => {
   return (
-    <View styles={styles.container}>
+    <Pressable onPress={onPress} styles={styles.container}>
       <View styles={styles.row}>
         <Text style={styles.symbolText}>{item.name}</Text>
         <Text style={styles.nameText}>{item.symbol}</Text>
@@ -12,7 +13,7 @@ const CoinsItem = ({ item }) => {
         <Text style={styles.percentText}>{item.percent_change_1h}</Text>
         <Text style={styles.percentText}>{item.price_usd}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 }
 // style={percent_change_1h > 0 ? styles.rowGreen : styles.rowRed}
@@ -20,7 +21,11 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: 16
+    padding: 16,
+    borderBottomColor: Colors.zircon,
+    borderBottomWidth: 1,
+    paddingLeft: 5,
+    marginLeft: 5,
   },
   row: {
     flexDirection: "row"
